@@ -1,0 +1,47 @@
+D:\Courses\UUJ\Research Project\masters_project\Arduino\3. TFPWork\motion_capt\IMU_Classifier\IMU_Classifier.ino: In function 'void setup()':
+D:\Courses\UUJ\Research Project\masters_project\Arduino\3. TFPWork\motion_capt\IMU_Classifier\IMU_Classifier.ino:91:122: error: no matching function for call to 'tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*&, tflite::AllOpsResolver&, byte [8192], const int&, tflite::MicroErrorReporter*)'
+   tflInterpreter = new tflite::MicroInterpreter(tflModel, tflOpsResolver, tensorArena, tensorArenaSize, &tflErrorReporter);
+                                                                                                                          ^
+In file included from D:\Courses\UUJ\Research Project\masters_project\Arduino\3. TFPWork\motion_capt\IMU_Classifier\IMU_Classifier.ino:26:0:
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:60:3: note: candidate: tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*, const tflite::MicroOpResolver&, tflite::MicroAllocator*, tflite::MicroResourceVariables*, tflite::MicroProfilerInterface*)
+   MicroInterpreter(const Model* model, const MicroOpResolver& op_resolver,
+   ^~~~~~~~~~~~~~~~
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:60:3: note:   no known conversion for argument 3 from 'byte [8192] {aka unsigned char [8192]}' to 'tflite::MicroAllocator*'
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:50:3: note: candidate: tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*, const tflite::MicroOpResolver&, uint8_t*, size_t, tflite::MicroResourceVariables*, tflite::MicroProfilerInterface*)
+   MicroInterpreter(const Model* model, const MicroOpResolver& op_resolver,
+   ^~~~~~~~~~~~~~~~
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:50:3: note:   no known conversion for argument 5 from 'tflite::MicroErrorReporter*' to 'tflite::MicroResourceVariables*'
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:40:7: note: candidate: constexpr tflite::MicroInterpreter::MicroInterpreter(const tflite::MicroInterpreter&)
+ class MicroInterpreter {
+       ^~~~~~~~~~~~~~~~
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:40:7: note:   candidate expects 1 argument, 5 provided
+
+exit status 1
+
+Compilation error: no matching function for call to 'tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*&, tflite::AllOpsResolver&, byte [8192], const int&, tflite::MicroErrorReporter*)'
+
+
+==============================================================================================
+
+
+D:\Courses\UUJ\Research Project\masters_project\Arduino\3. TFPWork\motion_capt\IMU_Classifier\IMU_Classifier.ino: In function 'void setup()':
+D:\Courses\UUJ\Research Project\masters_project\Arduino\3. TFPWork\motion_capt\IMU_Classifier\IMU_Classifier.ino:91:122: error: no matching function for call to 'tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*&, tflite::AllOpsResolver&, byte [8192], const int&, tflite::MicroErrorReporter*)'
+   tflInterpreter = new tflite::MicroInterpreter(tflModel, tflOpsResolver, tensorArena, tensorArenaSize, &tflErrorReporter);
+                                                                                                                          ^
+In file included from D:\Courses\UUJ\Research Project\masters_project\Arduino\3. TFPWork\motion_capt\IMU_Classifier\IMU_Classifier.ino:26:0:
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:60:3: note: candidate: tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*, const tflite::MicroOpResolver&, tflite::MicroAllocator*, tflite::MicroResourceVariables*, tflite::MicroProfilerInterface*)
+   MicroInterpreter(const Model* model, const MicroOpResolver& op_resolver,
+   ^~~~~~~~~~~~~~~~
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:60:3: note:   no known conversion for argument 3 from 'byte [8192] {aka unsigned char [8192]}' to 'tflite::MicroAllocator*'
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:50:3: note: candidate: tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*, const tflite::MicroOpResolver&, uint8_t*, size_t, tflite::MicroResourceVariables*, tflite::MicroProfilerInterface*)
+   MicroInterpreter(const Model* model, const MicroOpResolver& op_resolver,
+   ^~~~~~~~~~~~~~~~
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:50:3: note:   no known conversion for argument 5 from 'tflite::MicroErrorReporter*' to 'tflite::MicroResourceVariables*'
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:40:7: note: candidate: constexpr tflite::MicroInterpreter::MicroInterpreter(const tflite::MicroInterpreter&)
+ class MicroInterpreter {
+       ^~~~~~~~~~~~~~~~
+C:\Users\ofith\OneDrive\Documents\Arduino\libraries\Arduino_TensorFlowLite\src/tensorflow/lite/micro/micro_interpreter.h:40:7: note:   candidate expects 1 argument, 5 provided
+
+exit status 1
+
+Compilation error: no matching function for call to 'tflite::MicroInterpreter::MicroInterpreter(const tflite::Model*&, tflite::AllOpsResolver&, byte [8192], const int&, tflite::MicroErrorReporter*)'

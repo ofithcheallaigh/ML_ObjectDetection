@@ -1,0 +1,194 @@
+#include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
+
+#include <TensorFlowLite.h>
+#include <tensorflow/lite/micro/all_ops_resolver.h>
+#include <tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h> // Had to add "tflite_bridge"
+#include <tensorflow/lite/micro/micro_interpreter.h>
+#include <tensorflow/lite/schema/schema_generated.h>
+#include <tensorflow/lite/version.h>
+#include <tensorflow/lite/c/common.h>
+
+#include "channel1.h" //input_array_1
+#include "channel2.h" //input_array_2
+
+#include "model.h"
+
+// Declare the 3D array of data.
+float reshaped_data[1][5000][2];
+
+// Declare the 2D array of data.
+float output_data[5000][2];
+
+float input_data[1][5000][2];
+
+// Global variable used for TF Lite Micro
+tflite::MicroErrorReporter tflErrorReporter;
+
+// Import all the TF Lite Micro ops. I could pull in just the ones I need.
+// For the minute I will take everything in. But this may change.
+tflite::AllOpsResolver tflOpsResolver;
+
+// Used to declare a variable that will be used to store a reference to a TF Lite model
+const tflite::Model* tflModel = nullptr;
+tflite::MicroInterpreter* tflInterpreter = nullptr;
+TfLiteTensor* tflInputTensor = nullptr;
+TfLiteTensor* tflOutputTensor = nullptr;
+
+constexpr int tensorArenaSize = 60 * 1024;
+byte tensorArena[tensorArenaSize] __attribute__((aligned(16)));
+
+// Array to map grids
+const char* GRIDS[] = {
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine"          
+};
+
+// #define NUM_GRIDS (sizeof(GRIDS) / sizeof(GRIDS[0]))
+#define NUM_GRIDS 10
+
+void setup() {
+  delay(1000);
+  Serial.begin(9600);
+  while(!Serial);
+  Serial.print("Starting..."); // Text to note start of data collection
+
+    // Get the TFL repsentation of the model byte array
+  tflModel = tflite::GetModel(model);
+    if (tflModel->version() != TFLITE_SCHEMA_VERSION) {
+    Serial.println("Model schema mismatch!");
+    while (1);
+  }
+  
+  // Generate an interpretor to run the model
+  tflInterpreter = new tflite::MicroInterpreter(tflModel, tflOpsResolver, tensorArena, tensorArenaSize);  
+
+  // Assign memory for the model's input and output tensors
+  tflInterpreter->AllocateTensors();
+
+  // Pointers for the model input and output tensors
+  tflInputTensor = tflInterpreter->input(0);
+  tflOutputTensor = tflInterpreter->output(0);
+
+
+  int output_shape[] = {1, 10};
+  // TfLiteTensor* output_tensor = interpreter->output(0);
+  tflOutputTensor->dims->data[0] = output_shape[0];
+  tflOutputTensor->dims->data[1] = output_shape[1];
+
+  // Get a pointer to the output tensor data
+  float* output_data = tflOutputTensor->data.f;
+}
+
+void loop() {
+  // for(int k=0;k<5000;k++){
+    // Serial.println(input_array_1[k]);
+  // }
+
+
+  // Copy the data from `input_array_1` to the first column of `output_data`.
+  Serial.println("Building array from input_array_1");
+  for (int i = 0; i < 5000; i++) {
+    output_data[i][0] = input_array_1[i];
+    Serial.println(i);
+  }
+
+  // Copy the data from `input_array_2` to the second column of `output_data`.
+  Serial.println("Building array from input_array_2");
+  for (int i = 0; i < 5000; i++) {
+    output_data[i][1] = input_array_2[i];
+  }
+
+  // Fill the array with data 
+  for (int i = 0; i < 5000; i++) { 
+    // output_data[i][0] = input_array_1[i]; //0 1
+    // output_data[i][1] = input_array_2[i*2]; // 1
+    // data[i][0] = i; 
+    // data[i][1] = i * 2; 
+  }
+
+  // Declare the 3D array of data.
+  // float reshaped_data[1][5000][2];
+
+  // Reshape the 2D array to a 3D array.
+  /*
+  Serial.println("Reshapping ...");
+  for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 5000; j++) {
+      reshaped_data[0][j][i] = output_data[i][j];
+    }
+  }
+  */
+  // Copy the data to the reshaped array 
+  for (int i = 0; i < 5000; i++) { 
+    reshaped_data[0][i][0] = output_data[i][0]; 
+    reshaped_data[0][i][1] = output_data[i][1]; 
+  }
+
+  Serial.println(",");
+  Serial.print("Finished reshaping ...");
+  
+  for (int i = 0; i < 5000; i++) {
+    for (int j = 0; j < 2; j++) {
+        float value = reshaped_data[0][i][j];
+        int input_index = j + i * 2;
+        tflInputTensor->data.f[input_index] = value;
+    }
+  }
+
+  Serial.println("Blah");
+  
+  delay(5000);
+  /*
+  // Print the 3D array.
+  for (int i = 0; i < 1; i++) {
+    for (int j = 0; j < 5000; j++) {
+      for (int k = 0; k < 2; k++) {
+        Serial.print(reshaped_data[i][j][k]);
+        Serial.println(" ");
+      }
+      // Serial.print();
+    }
+  }
+  */
+  TfLiteStatus invokeStatus = tflInterpreter->Invoke();
+    Serial.println("Invoke");      
+    if (invokeStatus != kTfLiteOk) 
+    {
+      Serial.println("Invoke failed!");
+      while (1);
+      return;
+    }
+
+    // Check the output tensor shape
+    int output_num_dims = tflOutputTensor->dims->size;
+    Serial.print("Output tensor shape: [");
+    for (int i = 0; i < output_num_dims; i++) {
+      int dim_size = tflOutputTensor->dims->data[i];
+      Serial.print(dim_size);
+      if (i < output_num_dims - 1) {
+        Serial.print(", ");
+      }
+    }
+    Serial.println("]");
+
+    // Loop through the output tensor values from the model
+    for (int i = 0; i < NUM_GRIDS; i++) 
+    {
+      Serial.print(GRIDS[i]);
+      Serial.print(": ");
+      Serial.println(tflOutputTensor->data.f[i],2); // The int here gives the decimal places
+    }
+    //======================================================= */ 
+    Serial.println();
+    delay(2000);
+}

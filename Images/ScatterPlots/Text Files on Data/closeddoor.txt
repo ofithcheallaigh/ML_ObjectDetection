@@ -1,0 +1,99 @@
+The length of Grid 1 data is: 100001
+The maxmimum value in the Grid 1, Channel 1 data set is 629
+The mimimum value in the Grid 1, Channel 1 data set is 597
+The unique number of values in the Grid 1, Channel 1 data set is 12
+The max-min difference is 32
+The maxmimum value in the Grid 1, Channel 2 data set is 598
+The mimimum value in the Grid 1, Channel 2 data set is 583
+The unique number of values in the Grid 1, Channel 2 data set is 11
+The max-min difference is 15
+===========================================================================================
+
+The length of Grid 2 data is: 100001
+The maxmimum value in the Grid 2, Channel 1 data set is 475
+The mimimum value in the Grid 2, Channel 1 data set is 457
+The unique number of values in the Grid 2, Channel 1 data set is 13
+The max-min difference is 18
+The maxmimum value in the Grid 2, Channel 2 data set is 493
+The mimimum value in the Grid 2, Channel 2 data set is 460
+The unique number of values in the Grid 2, Channel 2 data set is 16
+The max-min difference is 33
+===========================================================================================
+
+The length of Grid 3 data is: 100001
+The maxmimum value in the Grid 3, Channel 1 data set is 579
+The mimimum value in the Grid 3, Channel 1 data set is 565
+The unique number of values in the Grid 3, Channel 1 data set is 6
+The max-min difference is 14
+The maxmimum value in the Grid 3, Channel 2 data set is 741
+The mimimum value in the Grid 3, Channel 2 data set is 723
+The unique number of values in the Grid 3, Channel 2 data set is 13
+The max-min difference is 18
+===========================================================================================
+
+The length of Grid 4 data is: 100001
+The maxmimum value in the Grid 4, Channel 1 data set is 1932
+The mimimum value in the Grid 4, Channel 1 data set is 1896
+The unique number of values in the Grid 4, Channel 1 data set is 25
+The max-min difference is 36
+The maxmimum value in the Grid 4, Channel 2 data set is 2185
+The mimimum value in the Grid 4, Channel 2 data set is 2056
+The unique number of values in the Grid 4, Channel 2 data set is 46
+The max-min difference is 129
+===========================================================================================
+
+The length of Grid 5 data is: 100001
+The maxmimum value in the Grid 5, Channel 1 data set is 2229
+The mimimum value in the Grid 5, Channel 1 data set is 2194
+The unique number of values in the Grid 5, Channel 1 data set is 24
+The max-min difference is 35
+The maxmimum value in the Grid 5, Channel 2 data set is 2211
+The mimimum value in the Grid 5, Channel 2 data set is 2175
+The unique number of values in the Grid 5, Channel 2 data set is 26
+The max-min difference is 36
+===========================================================================================
+
+The length of Grid 6 data is: 100001
+The maxmimum value in the Grid 6, Channel 1 data set is 4673
+The mimimum value in the Grid 6, Channel 1 data set is 2192
+The unique number of values in the Grid 6, Channel 1 data set is 252
+The max-min difference is 2481
+The maxmimum value in the Grid 6, Channel 2 data set is 2178
+The mimimum value in the Grid 6, Channel 2 data set is 2116
+The unique number of values in the Grid 6, Channel 2 data set is 33
+The max-min difference is 62
+===========================================================================================
+
+The length of Grid 7 data is: 100001
+The maxmimum value in the Grid 7, Channel 1 data set is 3157
+The mimimum value in the Grid 7, Channel 1 data set is 3092
+The unique number of values in the Grid 7, Channel 1 data set is 35
+The max-min difference is 65
+The maxmimum value in the Grid 7, Channel 2 data set is 3399
+The mimimum value in the Grid 7, Channel 2 data set is 3192
+The unique number of values in the Grid 7, Channel 2 data set is 66
+The max-min difference is 207
+===========================================================================================
+
+The length of Grid 8 data is: 100001
+The maxmimum value in the Grid 8, Channel 1 data set is 3979
+The mimimum value in the Grid 8, Channel 1 data set is 3908
+The unique number of values in the Grid 8, Channel 1 data set is 43
+The max-min difference is 71
+The maxmimum value in the Grid 8, Channel 2 data set is 4012
+The mimimum value in the Grid 8, Channel 2 data set is 3927
+The unique number of values in the Grid 8, Channel 2 data set is 44
+The max-min difference is 85
+===========================================================================================
+
+The length of Grid 9 data is: 100001
+The maxmimum value in the Grid 9, Channel 1 data set is 3782
+The mimimum value in the Grid 9, Channel 1 data set is 3625
+The unique number of values in the Grid 9, Channel 1 data set is 99
+The max-min difference is 157
+The maxmimum value in the Grid 9, Channel 2 data set is 3655
+The mimimum value in the Grid 9, Channel 2 data set is 3525
+The unique number of values in the Grid 9, Channel 2 data set is 79
+The max-min difference is 130
+===========================================================================================
+

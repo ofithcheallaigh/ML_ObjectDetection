@@ -1,0 +1,221 @@
+/* 
+This code is used to run the generated model from my object detection project 
+Python code:  X_train.shape, X_test.shape, y_train.shape, y_test.shape 
+Generates:    ((134000, 2), (66000, 2), (134000,), (66000,)) 
+https://www.programiz.com/c-programming/online-compiler/ 
+#include <stdio.h> 
+int main() { 
+    int array[10][2];    
+    // Fill the array with values 
+     
+    for (int i = 0; i < 10; i++) { 
+      for (int j = 0; j < 2; j++) { 
+        printf("%d ", array[i][j]); 
+      } 
+      printf("\n"); 
+    } 
+    printf("\n"); 
+    return 0; 
+} 
+*/ 
+
+#include <stdlib.h> 
+#include <time.h> 
+#include <stdio.h> 
+
+#include <TensorFlowLite.h> 
+#include <tensorflow/lite/micro/all_ops_resolver.h> 
+#include <tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h> // Had to add "tflite_bridge" 
+#include <tensorflow/lite/micro/micro_interpreter.h> 
+#include <tensorflow/lite/schema/schema_generated.h> 
+#include <tensorflow/lite/version.h> 
+#include <tensorflow/lite/c/common.h> 
+
+#include "model.h" 
+
+const int kInputHeight = 5000; 
+const int kInputWidth = 2; 
+const int kInputDepth = 1;  // Assume input is a single channel  
+
+float arr[5000][2]; // 2D array of size 5x2 
+float float_array[5000][2]; 
+// float floatData[5000 * 2]; 
+float data_array[5000][2]; 
+
+
+// defines variables 
+const int numSamples = 5000; 
+int samplesRead = numSamples; 
+// float durationCh1, durationCh2;  // Variable for the duration of sound wave travel 
+// long distanceCh1, distanceCh2;                   // Variable for the distance measurement 
+long cm; 
+int j, i; 
+long k; 
+long randNumber1, randNumber2; 
+
+
+// srand(time(NULL)); // Set the seed for the random number generator 
+// int noise = rand() % 100; // Generate a random integer between 0 and 99 
+// Create a 2D array to hold your input data 
+float input_data[5000][2];  // Assumes 1000 rows and 2 columns 
+float arrayOne[5000]; // Declare the array with 5000 elements 
+float arrayTwo[5000]; // Declare the array with 5000 elements 
+// float valueOne = 70; // Replace 1.23 with the desired float value 
+// float valueTwo = 2000; // Replace 1.23 with the desired float value 
+float valueOne = 100; // Replace 1.23 with the desired float value 
+float valueTwo = 10296; // Replace 1.23 with the desired float value 
+// const int NUM_SAMPLES = 10000; 
+// int samplesRead = numSamples; 
+
+
+// Global variable used for TF Lite Micro 
+tflite::MicroErrorReporter tflErrorReporter; 
+
+
+// Import all the TF Lite Micro ops. I could pull in just the ones I need. 
+// For the minute I will take everything in. But this may change. 
+tflite::AllOpsResolver tflOpsResolver; 
+
+
+// Used to declare a variable that will be used to store a reference to a TF Lite model 
+const tflite::Model* tflModel = nullptr; 
+tflite::MicroInterpreter* tflInterpreter = nullptr; 
+TfLiteTensor* tflInputTensor = nullptr; 
+TfLiteTensor* tflOutputTensor = nullptr; 
+
+// TfLiteTensor* input_tensor; 
+// TfLiteTensor* output_tensor; 
+
+// The 2D array of 5000 rows and 2 columns. 
+// float** data_array = (float**)malloc(5000 * sizeof(float*)); 
+/* 
+float** data_array = (float**)malloc(5000 * sizeof(float*)); 
+for(int k = 0; k < 5000; k++)  
+{ 
+  data_array1[k] = malloc(2 * sizeof(float)); 
+} 
+
+
+*/ 
+// The float array. 
+// float* floatData = malloc(5000 * 2 * sizeof(float)); 
+// Create a memory buffer in the micro: 
+// byte define the type of the array and `tensorArena` is the name of the array. 
+// [tensorArenaSize] is the size of the array. In this case, the array has a size of tensorArenaSize bytes. 
+// __attribute__((aligned(16))) is an attribute that tells the compiler to align the memory for  
+// the array on a 16-byte boundary. 
+constexpr int tensorArenaSize = 60 * 1024; 
+byte tensorArena[tensorArenaSize] __attribute__((aligned(16))); 
+
+
+// Array to map grids 
+const char* GRIDS[] = { 
+  "zero", 
+  "one", 
+  "two", 
+  "three", 
+  "four", 
+  "five", 
+  "six", 
+  "seven", 
+  "eight", 
+  "nine"           
+}; 
+
+#define NUM_GRIDS (sizeof(GRIDS) / sizeof(GRIDS[0])) 
+
+
+void setup() { 
+  Serial.begin(9600); 
+  while(!Serial); 
+  Serial.print("Starting..."); // Text to note start of data collection 
+  // Get the TFL repsentation of the model byte array 
+  tflModel = tflite::GetModel(model); 
+    if (tflModel->version() != TFLITE_SCHEMA_VERSION) { 
+    Serial.println("Model schema mismatch!"); 
+    while (1); 
+  } 
+   
+  // Generate an interpretor to run the model 
+  tflInterpreter = new tflite::MicroInterpreter(tflModel, tflOpsResolver, tensorArena, tensorArenaSize);   
+  // Assign memory for the model's input and output tensors 
+  tflInterpreter->AllocateTensors(); 
+  // Pointers for the model input and output tensors 
+  tflInputTensor = tflInterpreter->input(0); 
+  tflOutputTensor = tflInterpreter->output(0); 
+  // Get a pointer to the input tensor data. 
+  // float* input_data_ptr = tflInputTensor->data.f; 
+  randomSeed(42); 
+} 
+void loop()  
+{ 
+  randNumber1 = random(1,50); 
+  randNumber2 = random(1,300); 
+  float durationCh1, durationCh2;  // Variable for the duration of sound wave travel 
+  // float* input_data_ptr = tflInputTensor->data.f; 
+  // Pointers for the model input and output tensors 
+  tflInputTensor = tflInterpreter->input(0); 
+  tflOutputTensor = tflInterpreter->output(0); 
+  // Initialize all elements of the array with the same float value 
+for(int i = 0; i < 5000; i++) 
+  { 
+      arr[i][0] = valueOne + randNumber1; 
+  } 
+for(int i = 0; i < 5000; i++) 
+  { 
+      arr[i][1] = valueTwo + randNumber2; 
+  } 
+  while(samplesRead ==  numSamples) // SAMPLES_LIMIT = 10000 
+  { 
+    samplesRead = 0; 
+    break; 
+  } 
+  // for(i=0; i<5000; i++)   
+  while(samplesRead < numSamples) 
+  {   
+    // tflInputTensor->setData(&input_data[0][0], sizeof(float) * kInputHeight * kInputWidth * kInputDepth); 
+    // tflInputTensor->data.f[samplesRead*2+0] = 4512.00; 
+    // tflInputTensor->data.f[samplesRead*2+1] = 4428.00; 
+    // Flatten the 2D array into a 1D array and copy it into the input tensor. 
+   
+    // Convert the 2D array to a float array. 
+    // Convert the 2D array to a float array. 
+    // float[] floatData = new float[5000 * 2]; 
+    for (int i = 0; i < 5000; i++)  
+    { 
+      for (int j = 0; j < 2; j++)  
+      { 
+        // floatData[i * 2 + j] = data[i][j]; 
+        // tflInputTensor->data.f[i * 2 + j] = data_array[i][j]; 
+        tflInputTensor->data.f[i * 2 + j] = arr[i][j]; 
+      } 
+    } 
+   
+    // Write the float array to the input tensor. 
+    // tflWriteTensor(input_tensor, floatData, 5000 * 2 * sizeof(float));  
+    // tflWriteTensor(tflInputTensor, floatData, 5000 * 2 * sizeof(float)); 
+    samplesRead++;     
+    //Serial.println(samplesRead); 
+    if(samplesRead == numSamples) 
+    {  
+      TfLiteStatus invokeStatus = tflInterpreter->Invoke(); 
+      Serial.println("Invoke");       
+      if (invokeStatus != kTfLiteOk)  
+      { 
+        Serial.println("Invoke failed!"); 
+        while (1); 
+        return; 
+      } 
+      // Loop through the output tensor values from the model 
+      for (int i = 0; i < NUM_GRIDS; i++)  
+      { 
+        Serial.print(GRIDS[i]); 
+        Serial.print(": "); 
+        Serial.println(tflOutputTensor->data.f[i],2); // The int here gives the decimal places 
+      } 
+      //======================================================= */  
+      Serial.println(); 
+      delay(2000); 
+    } 
+  } 
+}
